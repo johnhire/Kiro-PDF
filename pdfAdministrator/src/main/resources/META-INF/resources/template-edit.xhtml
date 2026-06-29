@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+    <f:viewParam name="id" value="#{templateEditBean.templateId}"/>
+    <f:event type="preRenderView" listener="#{templateEditBean.init()}"/>
+</f:metadata>
+
+<h:head>
+    <title>#{templateEditBean.editMode ? 'Edit' : 'New'} Template — PDF Administrator</title>
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .gov-banner { background: #1a1a2e; color: #fff; padding: 8px 20px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .menu-bar { background: #14558f; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; }
+        .site-header { padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; }
+        .site-header-left { display: flex; align-items: center; gap: 12px; }
+        .site-header-left .seal { width: 45px; height: 45px; border-radius: 50%; }
+        .site-header-left .seal img { width: 45px; height: 45px; border-radius: 50%; }
+        .site-header-left h1 { margin: 0; font-size: 18px; color: #388557; }
+        .site-header-left .subtitle { margin: 0; font-size: 11px; color: #388557; text-transform: uppercase; letter-spacing: 0.5px;  font-weight: 700;}
+        .site-header-right { display: flex; gap: 20px; }
+        .site-header-right a { color: #14558f; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .site-header-right a:hover { text-decoration: underline; }
+        .main-content { padding: 20px; }
+        .main-content h2 { margin: 0 0 25px 0; font-size: 28px; font-weight: 700; }
+        .form-layout { display: flex; gap: 40px; }
+        .form-left { flex: 2; }
+        .form-right { flex: 1; }
+        .form-field { margin-bottom: 18px; }
+        .form-field label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        .form-field label .req { color: #d32f2f; }
+        .form-field input, .form-field textarea, .form-field select { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        .form-field textarea { resize: vertical; min-height: 120px; }
+        .form-field input[disabled] { background: #f5f5f5; color: #666; }
+        .form-buttons { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+        .btn-save { background: #14558f; color: #fff; border: none; padding: 10px 30px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        .btn-reset { background: #fff; color: #14558f; border: 1px solid #14558f; padding: 10px 30px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        .btn-delete { background: #fff; color: #d32f2f; border: 1px solid #d32f2f; padding: 10px 30px; border-radius: 4px; font-size: 14px; cursor: pointer; margin-left: auto; }
+        .site-footer { background: #f0f0f0; padding: 30px 20px; border-top: 1px solid #ddd; margin-top: 30px; }
+        .footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .footer-brand .seal { width: 40px; height: 40px; border-radius: 50%; }
+        .footer-brand .seal img { width: 40px; height: 40px; border-radius: 50%; }
+        .footer-brand span { font-size: 18px; font-weight: 600; }
+        .footer-links { display: flex; gap: 30px; padding-bottom: 15px; border-bottom: 1px solid #ccc; margin-bottom: 15px; }
+        .footer-links a { color: #14558f; text-decoration: none; font-size: 14px; }
+        .footer-links a:hover { text-decoration: underline; }
+        .footer-copy { font-size: 13px; color: #555; line-height: 1.6; }
+    </style>
+</h:head>
+<h:body style="margin:0">
+
+    <!-- Government banner -->
+    <div class="gov-banner">
+        <span>&#9432;</span>
+        <span>An official website of the Commonwealth of Massachusetts</span>
+        <span style="margin-left:10px; text-decoration:underline; cursor:pointer;">Here's how you know &#9662;</span>
+    </div>
+
+    <!-- Menu bar -->
+    <div class="menu-bar">
+        <span>&#9776; Menu</span>
+        <span>&#8594; Log in</span>
+    </div>
+
+    <!-- Site header -->
+    <div class="site-header">
+        <div class="site-header-left">
+            <div class="seal"><img src="images/stateseal.png" alt="State Seal"/></div>
+            <div>
+                <h1>PDF Administrator</h1>
+                <p class="subtitle">Executive Office of Health and Human Services</p>
+            </div>
+        </div>
+        <div class="site-header-right">
+            <a href="documents.xhtml">&#9998; Documents</a>
+            <a href="templates.xhtml">&#128196; Templates</a>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <h2>#{templateEditBean.editMode ? 'Edit Template' : 'New Template'}</h2>
+
+        <p:growl id="growl" showDetail="true" life="5000"/>
+
+        <h:form id="editForm">
+            <p:messages id="messages" showDetail="true" closable="true" style="margin-bottom:15px"/>
+
+            <div class="form-layout">
+                <!-- Left column: editable fields -->
+                <div class="form-left">
+                    <div class="form-field">
+                        <label for="editForm:templateType">Template Type <span class="req">*</span></label>
+                        <p:inputText id="templateType"
+                                     value="#{templateEditBean.templateType}"
+                                     required="true"
+                                     requiredMessage="Template type is required."
+                                     disabled="#{templateEditBean.editMode}"
+                                     style="width:100%"/>
+                        <p:message for="templateType"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="editForm:description">Description <span class="req">*</span></label>
+                        <p:inputText id="description"
+                                     value="#{templateEditBean.description}"
+                                     style="width:100%"/>
+                        <p:message for="description"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="editForm:content">JSON Template String <span class="req">*</span></label>
+                        <p:fieldset legend="JSON Structure (click to collapse)" toggleable="true" collapsed="false" style="margin-bottom:15px">
+                            <p:inputTextarea id="content"
+                                             value="#{templateEditBean.content}"
+                                             required="true"
+                                             requiredMessage="Template content is required."
+                                             rows="8"
+                                             style="width:100%"
+                                             autoResize="false"
+                                             placeholder="Enter JSON template structure here"/>
+                            <p:message for="content"/>
+                        </p:fieldset>
+                    </div>
+
+                    <div class="form-field">
+                        <label>HTML Template Preview</label>
+                        <p:outputPanel id="htmlTemplatePreview"
+                                       style="border:1px solid #ccc; padding:10px; background:#fafafa; min-height:100px; max-height:500px; overflow:auto;">
+                            <h:outputText value="#{templateEditBean.htmlTemplate}"
+                                          escape="false"
+                                          rendered="#{not empty templateEditBean.htmlTemplate}"/>
+                            <h:outputText value="Save the template to generate the HTML preview."
+                                          rendered="#{empty templateEditBean.htmlTemplate}"
+                                          style="color:#888; font-style:italic;"/>
+                        </p:outputPanel>
+                    </div>
+
+                    <div class="form-buttons">
+                        <p:commandButton value="Save"
+                                         icon="pi pi-save"
+                                         action="#{templateEditBean.save()}"
+                                         update="messages growl"
+                                         styleClass="btn-save"/>
+                        <p:button value="Reset Form"
+                                  outcome="template-edit"
+                                  styleClass="btn-reset"/>
+                        <p:commandButton value="Delete Template"
+                                         icon="pi pi-trash"
+                                         action="#{templateListBean.deleteTemplate(templateEditBean.templateId)}"
+                                         rendered="#{templateEditBean.editMode}"
+                                         styleClass="btn-delete"
+                                         update="messages growl">
+                            <p:confirm header="Confirm Delete"
+                                       message="Are you sure you want to delete this template?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </div>
+                </div>
+
+                <!-- Right column: read-only audit fields -->
+                <div class="form-right">
+                    <div class="form-field">
+                        <label>ID <span class="req">*</span></label>
+                        <input type="text" value="#{templateEditBean.templateId}" disabled="disabled"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Created At <span class="req">*</span></label>
+                        <input type="text" value="#{templateEditBean.createdAt}" disabled="disabled"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Created By <span class="req">*</span></label>
+                        <input type="text" value="#{templateEditBean.createdBy}" disabled="disabled"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Updated At <span class="req">*</span></label>
+                        <input type="text" value="#{templateEditBean.updatedAt}" disabled="disabled"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Updated By <span class="req">*</span></label>
+                        <input type="text" value="#{templateEditBean.updatedBy}" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Yes" type="button"
+                                 styleClass="ui-confirmdialog-yes"
+                                 icon="pi pi-check"/>
+                <p:commandButton value="No" type="button"
+                                 styleClass="ui-confirmdialog-no ui-button-secondary"
+                                 icon="pi pi-times"/>
+            </p:confirmDialog>
+        </h:form>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+        <div class="footer-brand">
+            <div class="seal"><img src="images/stateseal.png" alt="State Seal"/></div>
+            <span>PDF Administrator</span>
+        </div>
+        <div class="footer-links">
+            <a href="#">Digital Accessibility Statement</a>
+            <a href="#">Privacy Notice</a>
+            <a href="#">Feedback</a>
+            <a href="#">Public Records Requests</a>
+        </div>
+        <div class="footer-copy">
+            &#169; 2026 Commonwealth of Massachusetts.<br/>
+            Mass.gov&#174; is a registered service mark of the Commonwealth of Massachusetts.
+        </div>
+    </div>
+
+</h:body>
+</html>

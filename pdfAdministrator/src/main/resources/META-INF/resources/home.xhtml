@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>PDF Administrator</title>
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        /* Top banner */
+        .gov-banner { background: #1a1a2e; color: #fff; padding: 8px 20px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .gov-banner img { width: 18px; height: 18px; }
+
+        /* Menu bar */
+        .menu-bar { background: #14558f; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; }
+        .menu-bar a { color: #fff; text-decoration: none; }
+
+        /* Header */
+        .site-header { padding: 20px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; }
+        .site-header-left { display: flex; align-items: center; gap: 12px; }
+        .site-header-left .seal { width: 50px; height: 50px; border-radius: 50%; }
+        .site-header-left .seal img { width: 50px; height: 50px; border-radius: 50%; }
+        .site-header-left h1 { margin: 0; font-size: 20px; color: #388557; }
+        .site-header-left .subtitle { margin: 0; font-size: 11px; color: #388557; text-transform: uppercase; letter-spacing: 0.5px;  font-weight: 700;}
+        .site-header-right { display: flex; gap: 20px; }
+        .site-header-right a { color: #14558f; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .site-header-right a:hover { text-decoration: underline; }
+
+        /* Main content */
+        .main-content { padding: 30px 20px; min-height: 300px; }
+        .card-row { display: flex; gap: 20px; }
+        .card { flex: 1; background: #e8f4fd; border: 1px solid #c8dfe8; border-radius: 4px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #14558f; font-size: 16px; font-weight: 500; transition: background 0.2s; }
+        .card:hover { background: #d4ecf7; }
+        .card .arrow { font-size: 20px; color: #14558f; }
+
+        /* Footer */
+        .site-footer { background: #f0f0f0; padding: 30px 20px; border-top: 1px solid #ddd; }
+        .footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .footer-brand .seal { width: 40px; height: 40px; border-radius: 50%; }
+        .footer-brand .seal img { width: 40px; height: 40px; border-radius: 50%; }
+        .footer-brand span { font-size: 18px; font-weight: 600; }
+        .footer-links { display: flex; gap: 30px; padding-bottom: 15px; border-bottom: 1px solid #ccc; margin-bottom: 15px; }
+        .footer-links a { color: #14558f; text-decoration: none; font-size: 14px; }
+        .footer-links a:hover { text-decoration: underline; }
+        .footer-copy { font-size: 13px; color: #555; line-height: 1.6; }
+    </style>
+</h:head>
+<h:body style="margin:0">
+
+    <!-- Government banner -->
+    <div class="gov-banner">
+        <span>&#9432;</span>
+        <span>An official website of the Commonwealth of Massachusetts</span>
+        <span style="margin-left:10px; text-decoration:underline; cursor:pointer;">Here's how you know &#9662;</span>
+    </div>
+
+    <!-- Menu bar -->
+    <div class="menu-bar">
+        <span>&#9776; Menu</span>
+        <span>&#8594; Log in</span>
+    </div>
+
+    <!-- Site header -->
+    <div class="site-header">
+        <div class="site-header-left">
+            <div class="seal"><img src="images/stateseal.png" alt="State Seal"/></div>
+            <div>
+                <h1>PDF Administrator</h1>
+                <p class="subtitle">Executive Office of Health and Human Services</p>
+            </div>
+        </div>
+        <div class="site-header-right">
+            <a href="documents.xhtml">&#9998; Documents</a>
+            <a href="templates.xhtml">&#128196; Templates</a>
+        </div>
+    </div>
+
+    <!-- Main content with navigation cards -->
+    <div class="main-content">
+        <div class="card-row">
+            <a href="documents.xhtml" class="card">
+                <span>Manage Documents</span>
+                <span class="arrow">&#8594;</span>
+            </a>
+            <a href="templates.xhtml" class="card">
+                <span>Manage Templates</span>
+                <span class="arrow">&#8594;</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+        <div class="footer-brand">
+            <div class="seal"><img src="images/stateseal.png" alt="State Seal"/></div>
+            <span>PDF Administrator</span>
+        </div>
+        <div class="footer-links">
+            <a href="#">Digital Accessibility Statement</a>
+            <a href="#">Privacy Notice</a>
+            <a href="#">Feedback</a>
+            <a href="#">Public Records Requests</a>
+        </div>
+        <div class="footer-copy">
+            &#169; 2026 Commonwealth of Massachusetts.<br/>
+            Mass.gov&#174; is a registered service mark of the Commonwealth of Massachusetts.
+        </div>
+    </div>
+
+</h:body>
+</html>

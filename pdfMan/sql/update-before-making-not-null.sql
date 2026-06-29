@@ -1,0 +1,1 @@
+UPDATE template SET html_template = 'tbd' WHERE html_template IS NULL;
