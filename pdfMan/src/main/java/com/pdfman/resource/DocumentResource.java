@@ -25,13 +25,6 @@ public class DocumentResource {
                              @RestForm String description,
                              @RestForm String jsonOriginString,
                              @RestForm String documentHtml) {
-        System.out.println("=== DocumentResource.generate() called ===");
-        System.out.println("templateId: " + templateId);
-        System.out.println("name: " + name);
-        System.out.println("description: " + description);
-        System.out.println("jsonOriginString: " + jsonOriginString);
-        System.out.println("documentHtml length: " + (documentHtml != null ? documentHtml.length() : "null"));
-        System.out.println("==========================================");
         if (templateId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type(MediaType.APPLICATION_JSON)

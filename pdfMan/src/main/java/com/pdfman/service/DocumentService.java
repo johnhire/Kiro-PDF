@@ -27,13 +27,13 @@ public class DocumentService {
     public DocumentDto generate(Long templateId, String name, String description, String jsonOriginString, String documentHtml) {
         TemplateEntity template = TemplateEntity.<TemplateEntity>findByIdOptional(templateId)
                 .orElseThrow(() -> new NotFoundException("Template not found: " + templateId));
-System.out.println("have tempalte= "+template);
+
         // Parse jsonOriginString into a payload map for rendering
         Map<String, Object> payload = new java.util.HashMap<>();
         if (jsonOriginString != null && !jsonOriginString.isBlank()) {
             try {
                 com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-System.out.println("have mapper= "+mapper);
+
                 @SuppressWarnings("unchecked")
                 Map<String, Object> parsed = mapper.readValue(jsonOriginString, Map.class);
                 payload = parsed;
@@ -53,7 +53,6 @@ System.out.println("have mapper= "+mapper);
             renderTemplate = template.jsonTemplateString;
         }
         byte[] pdfBytes = pdfRenderingService.render(renderTemplate, payload);
-System.out.println("have pdfBytes= "+pdfBytes);
 
         String storageKey = "documents/" + name + ".pdf";
         //String storageKey = UUID.randomUUID() + ".pdf";
@@ -68,7 +67,6 @@ System.out.println("have pdfBytes= "+pdfBytes);
         entity.storageKey = storageKey;
         AuditHelper.stampCreated(entity);
         entity.persist();
-System.out.println("have DocumentEntity= "+entity);
 
         return toDto(entity);
     }
